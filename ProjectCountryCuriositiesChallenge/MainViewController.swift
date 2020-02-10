@@ -21,51 +21,15 @@ class MainViewController: UIViewController,UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .lightGray
+        setupMainViewController()
         
-        title = "Country Curiosities"
+        setupImageView()
         
-        imageView = UIImageView(frame: .zero)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.isUserInteractionEnabled = true
-        view.addSubview(imageView)
+        setupTableView()
         
-        tableView = UITableView()
-        tableViewDataSource = CountryTableDataSource()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.dataSource = tableViewDataSource
-        tableView.delegate = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        setupCountryLabel()
         
-        DispatchQueue.global(qos: .default).async {
-            [weak self] in
-            self?.tableViewDataSource.loadTableViewData()
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
-        
-        
-        view.addSubview(tableView)
-        
-        countryLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 100, height: 100)))
-        countryLabel.textAlignment = .center
-        countryLabel.translatesAutoresizingMaskIntoConstraints = false
-        countryLabel.font = UIFont(name: "Arial", size: 40)
-        countryLabel.textColor = .blue
-        imageView.addSubview(countryLabel)
-        
-        detailButton = UIButton(type: .roundedRect)
-        detailButton.translatesAutoresizingMaskIntoConstraints = false
-        detailButton.setTitle("Details", for: .normal)
-        detailButton.alpha = 0
-        detailButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        detailButton.titleLabel?.font = UIFont.systemFont(ofSize: 26)
-        detailButton.layer.cornerRadius = 5
-        detailButton.layer.borderWidth = 1
-        detailButton.layer.borderColor = UIColor.black.cgColor
-        detailButton.addTarget(self, action: #selector(showCountryDetailButtonPressed), for: .touchUpInside)
-        imageView.addSubview(detailButton)
+        setupDetailButton()
         
         constraintsInitialization()
         
@@ -103,6 +67,60 @@ class MainViewController: UIViewController,UITableViewDelegate {
             }
             
         }
+    }
+    
+    fileprivate func setupTableView() {
+        tableView = UITableView()
+        tableViewDataSource = CountryTableDataSource()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.dataSource = tableViewDataSource
+        tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        DispatchQueue.global(qos: .default).async {
+            [weak self] in
+            self?.tableViewDataSource.loadTableViewData()
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        view.addSubview(tableView)
+    }
+    
+    fileprivate func setupMainViewController() {
+        view.backgroundColor = .lightGray
+        title = "Country Curiosities"
+    }
+    
+    fileprivate func setupImageView() {
+        imageView = UIImageView(frame: .zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
+        view.addSubview(imageView)
+    }
+    
+    fileprivate func setupCountryLabel() {
+        countryLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 100, height: 100)))
+        countryLabel.textAlignment = .center
+        countryLabel.translatesAutoresizingMaskIntoConstraints = false
+        countryLabel.font = UIFont(name: "Arial", size: 40)
+        countryLabel.textColor = .blue
+        imageView.addSubview(countryLabel)
+    }
+    
+    fileprivate func setupDetailButton() {
+        detailButton = UIButton(type: .roundedRect)
+        detailButton.translatesAutoresizingMaskIntoConstraints = false
+        detailButton.setTitle("Details", for: .normal)
+        detailButton.alpha = 0
+        detailButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        detailButton.titleLabel?.font = UIFont.systemFont(ofSize: 26)
+        detailButton.layer.cornerRadius = 5
+        detailButton.layer.borderWidth = 1
+        detailButton.layer.borderColor = UIColor.black.cgColor
+        detailButton.addTarget(self, action: #selector(showCountryDetailButtonPressed), for: .touchUpInside)
+        imageView.addSubview(detailButton)
     }
     
     func constraintsInitialization() {

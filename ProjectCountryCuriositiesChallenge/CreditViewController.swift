@@ -15,17 +15,16 @@ class CreditViewController: UIViewController {
     var returnButton: UIButton!
     var coordinator: MainCoordinator?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        
+    fileprivate func setupAuthorLabel() {
         authorLabel = UILabel(frame: .zero)
         authorLabel.textAlignment = .center
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.font = UIFont(name: "Arial", size: 50)
         authorLabel.text = "Author: Leo"
         view.addSubview(authorLabel)
-        
+    }
+    
+    fileprivate func setupCreditDescriptionLabel() {
         creditDescriptionLabel = UILabel(frame: .zero)
         creditDescriptionLabel.textAlignment = .center
         creditDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +32,9 @@ class CreditViewController: UIViewController {
         creditDescriptionLabel.numberOfLines = 2
         creditDescriptionLabel.text = "This app was made for educational purposes only."
         view.addSubview(creditDescriptionLabel)
-        
+    }
+    
+    fileprivate func setupReturnButton() {
         returnButton = UIButton(type: .roundedRect)
         returnButton.translatesAutoresizingMaskIntoConstraints = false
         returnButton.setTitle("Return to Countries list", for: .normal)
@@ -44,6 +45,17 @@ class CreditViewController: UIViewController {
         returnButton.layer.borderColor = UIColor.black.cgColor
         returnButton.addTarget(self, action: #selector(returnToCountriesList), for: .touchUpInside)
         view.addSubview(returnButton)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        
+        setupAuthorLabel()
+        
+        setupCreditDescriptionLabel()
+        
+        setupReturnButton()
         
         constraintsInitialization()
     }

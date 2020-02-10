@@ -15,30 +15,43 @@ class CountryDetailViewController: UIViewController {
     var country: Country!
     var creditButton: UIButton!
     var coordinator: MainCoordinator?
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .lightGray
         title = country.name
         
+        setupCountryTitle()
+        
+        setupCoutryCuriosities()
+        
+        setupCreditButton()
+        
+        constraintsInitialization()
+    }
+    
+    fileprivate func setupCountryTitle() {
         countryTitle = UILabel(frame: .zero)
         countryTitle.textAlignment = .center
         countryTitle.translatesAutoresizingMaskIntoConstraints = false
         countryTitle.font = UIFont(name: "Arial", size: 50)
         countryTitle.text = country.name
         view.addSubview(countryTitle)
-        
+    }
+    
+    fileprivate func setupCoutryCuriosities() {
         countryCuriosities = UITextView(frame: .zero)
         countryCuriosities.textAlignment = .left
         countryCuriosities.translatesAutoresizingMaskIntoConstraints = false
         countryCuriosities.font = UIFont(name: "Times new roman", size: 30)
         countryCuriosities.text = country.curiosities
         countryCuriosities.sizeToFit()
-        countryCuriosities.isEditable = false 
+        countryCuriosities.isEditable = false
         view.addSubview(countryCuriosities)
-        
+    }
+    
+    fileprivate func setupCreditButton() {
         creditButton = UIButton()
         creditButton.translatesAutoresizingMaskIntoConstraints = false
         creditButton.setTitle("Credits", for: .normal)
@@ -51,8 +64,6 @@ class CountryDetailViewController: UIViewController {
         creditButton.backgroundColor = .black
         creditButton.addTarget(self, action: #selector(showCreditView), for: .touchUpInside)
         view.addSubview(creditButton)
-        
-        constraintsInitialization()
     }
     
     func constraintsInitialization() {
