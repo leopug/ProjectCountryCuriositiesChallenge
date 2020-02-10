@@ -8,15 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class MainViewController: UIViewController,UITableViewDelegate {
 
     var imageView: UIImageView!
     var tableView: UITableView!
+    var tableViewDataSource: CountryTableDataSource!
     var countryLabel: UILabel!
     var detailButton: UIButton!
     var selectedCountry: Country!
-    
-    var countries = [Country]()
+    var coordinator: MainCoordinator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +31,21 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         view.addSubview(imageView)
         
         tableView = UITableView()
+        tableViewDataSource = CountryTableDataSource()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.dataSource = self
+        tableView.dataSource = tableViewDataSource
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        loadTableViewData()
+        
+        DispatchQueue.global(qos: .default).async {
+            [weak self] in
+            self?.tableViewDataSource.loadTableViewData()
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        
         view.addSubview(tableView)
         
         countryLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 100, height: 100)))
@@ -55,7 +65,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         detailButton.layer.borderWidth = 1
         detailButton.layer.borderColor = UIColor.black.cgColor
         detailButton.addTarget(self, action: #selector(showCountryDetailButtonPressed), for: .touchUpInside)
-        detailButton.isEnabled = true
         imageView.addSubview(detailButton)
         
         constraintsInitialization()
@@ -63,27 +72,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @objc func showCountryDetailButtonPressed(_ sender: UIButton!){
-        print("it works!")
         
-        navigationController?.pushViewController(CountryDetailView(), animated: true)
+        coordinator?.goToCountryDetailViewController(with: selectedCountry)
         
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = countries[indexPath.row].name.replacingOccurrences(of: "_", with: " ")
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        selectedCountry = countries[indexPath.row]
+        selectedCountry = tableViewDataSource.countries[indexPath.row]
         
         countryLabel.text = selectedCountry.name.replacingOccurrences(of: "_", with: " ")
+        if selectedCountry.fileName == "br" {
+            countryLabel.textColor = .white
+        } else {
+            countryLabel.textColor = .blue
+        }
+        
         imageView.image = UIImage(named: selectedCountry.fileName)
         
         if detailButton.alpha == 1 {
@@ -125,32 +129,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             detailButton.widthAnchor.constraint(equalToConstant: 100)
         ])
         
-    }
-    
-    func loadTableViewData() {
-        DispatchQueue.global(qos: .background).async {
-            [weak self] in
-            if let result = self?.loadDataFromFile() {
-                self?.countries = result
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
-        }
-    }
-
-    func loadDataFromFile()-> [Country]? {
-        if let url = Bundle.main.url(forResource: "CountriesCuriosities", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                let jsonData = try decoder.decode(CountriesCuriosities.self, from: data)
-                return jsonData.countryCuriosities
-            } catch {
-                print("error:\(error)")
-            }
-        }
-        return nil
     }
 
 }

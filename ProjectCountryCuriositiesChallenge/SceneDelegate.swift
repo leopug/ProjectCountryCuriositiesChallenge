@@ -12,13 +12,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let mainViewController = MainViewController()
+        let navigationController = UINavigationController(rootViewController: mainViewController)
+        let mainCoordinator = MainCoordinator(navigationController: navigationController)
+        
+        mainViewController.coordinator = mainCoordinator
+        
         window = UIWindow(frame: windowScene.screen.bounds)
-        let viewController = ViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.title = "Agora vai"
         window?.rootViewController = navigationController
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
