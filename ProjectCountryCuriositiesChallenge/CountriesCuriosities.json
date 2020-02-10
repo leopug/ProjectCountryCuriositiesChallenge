@@ -1,0 +1,24 @@
+{
+  "countryCuriosities": [
+    {
+      "name": "Brasil",
+      "fileName": "br",
+      "curiosities": "O brasil é um pais rico em café, e muitas outras coisas por que nosso pais produz coisas muito legais tipo cana de acucar"
+    },
+    {
+      "name": "Jamaica",
+      "fileName": "jm",
+      "curiosities": "O brasil é um pais rico em café, e muitas outras coisas por que nosso pais produz coisas muito legais tipo cana de acucar"
+    },
+    {
+      "name": "Italia",
+      "fileName": "it",
+      "curiosities": "O brasil é um pais rico em café, e muitas outras coisas por que nosso pais produz coisas muito legais tipo cana de acucar"
+    },
+    {
+      "name": "Trinidad_Tobago",
+      "fileName": "tt",
+      "curiosities": "O brasil é um pais rico em café, e muitas outras coisas por que nosso pais produz coisas muito legais tipo cana de acucar"
+    }
+  ]
+}
