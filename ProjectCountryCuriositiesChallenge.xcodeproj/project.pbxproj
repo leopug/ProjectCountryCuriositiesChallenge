@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F020E60241ED0FB00D68382 /* MainViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F020E5F241ED0FB00D68382 /* MainViewControllerViewModel.swift */; };
 		3F3A2D1423EC72A400EAF372 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A2D1323EC72A400EAF372 /* AppDelegate.swift */; };
 		3F3A2D1623EC72A400EAF372 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A2D1523EC72A400EAF372 /* SceneDelegate.swift */; };
 		3F3A2D1823EC72A400EAF372 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A2D1723EC72A400EAF372 /* MainViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F020E5F241ED0FB00D68382 /* MainViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewControllerViewModel.swift; sourceTree = "<group>"; };
 		3F3A2D1023EC72A400EAF372 /* ProjectCountryCuriositiesChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectCountryCuriositiesChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F3A2D1323EC72A400EAF372 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F3A2D1523EC72A400EAF372 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				3F3A2D1323EC72A400EAF372 /* AppDelegate.swift */,
 				3F3A2D1523EC72A400EAF372 /* SceneDelegate.swift */,
 				3F3A2D1723EC72A400EAF372 /* MainViewController.swift */,
+				3F020E5F241ED0FB00D68382 /* MainViewControllerViewModel.swift */,
 				3F3A2D2723F1938300EAF372 /* CountryDetailViewController.swift */,
 				3F3A2D2F23F1CF0200EAF372 /* CreditViewController.swift */,
 				3F3A2D3323F1DDA600EAF372 /* MainCoordinator.swift */,
@@ -157,6 +160,7 @@
 			files = (
 				3F3A2D3023F1CF0200EAF372 /* CreditViewController.swift in Sources */,
 				3F3A2D3223F1DC5B00EAF372 /* Coordinator.swift in Sources */,
+				3F020E60241ED0FB00D68382 /* MainViewControllerViewModel.swift in Sources */,
 				3F3A2D3623F1E6E400EAF372 /* CountryTableDataSource.swift in Sources */,
 				3F3A2D2823F1938300EAF372 /* CountryDetailViewController.swift in Sources */,
 				3F3A2D1823EC72A400EAF372 /* MainViewController.swift in Sources */,

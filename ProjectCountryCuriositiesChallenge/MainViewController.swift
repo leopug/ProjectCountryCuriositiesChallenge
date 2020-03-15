@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class MainViewController: UIViewController,UITableViewDelegate {
 
@@ -17,6 +18,11 @@ class MainViewController: UIViewController,UITableViewDelegate {
     var detailButton: UIButton!
     var selectedCountry: Country!
     var coordinator: MainCoordinator?
+
+    var countrySwitch: UISwitch!
+    var cancellable: AnyCancellable?
+    
+    private var viewModel = MainViewControllerViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +35,22 @@ class MainViewController: UIViewController,UITableViewDelegate {
         
         setupCountryLabel()
         
+        setupSwitch()
+        
         setupDetailButton()
         
         constraintsInitialization()
         
+    }
+    
+    func setupSwitch(){
+        
+        countrySwitch = UISwitch()
+        countrySwitch.translatesAutoresizingMaskIntoConstraints = false
+        countrySwitch.onTintColor = .blue
+        cancellable = viewModel.$isCountryChecked.receive(on: DispatchQueue.main).assign(to: \.isOn , on: countrySwitch)
+        imageView.addSubview(countrySwitch)
+
     }
     
     @objc func showCountryDetailButtonPressed(_ sender: UIButton!){
@@ -43,6 +61,7 @@ class MainViewController: UIViewController,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        viewModel.invertIsCountryChecked()
         selectedCountry = tableViewDataSource.countries[indexPath.row]
         
         countryLabel.text = selectedCountry.name.replacingOccurrences(of: "_", with: " ")
@@ -53,7 +72,7 @@ class MainViewController: UIViewController,UITableViewDelegate {
         }
         
         imageView.image = UIImage(named: selectedCountry.fileName)
-        
+                
         if detailButton.alpha == 1 {
             UIView.animate(withDuration: 1) {
                 self.detailButton.alpha = 0
@@ -67,6 +86,9 @@ class MainViewController: UIViewController,UITableViewDelegate {
             }
             
         }
+        
+
+        
     }
     
     fileprivate func setupTableView() {
@@ -82,6 +104,8 @@ class MainViewController: UIViewController,UITableViewDelegate {
             self?.tableViewDataSource.loadTableViewData()
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                let indexPath = IndexPath(row: 0, section: 0)
+                self?.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
             }
         }
         
@@ -91,6 +115,7 @@ class MainViewController: UIViewController,UITableViewDelegate {
     fileprivate func setupMainViewController() {
         view.backgroundColor = .lightGray
         title = "Country Curiosities"
+        viewModel.timerInit()
     }
     
     fileprivate func setupImageView() {
@@ -104,7 +129,7 @@ class MainViewController: UIViewController,UITableViewDelegate {
         countryLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 100, height: 100)))
         countryLabel.textAlignment = .center
         countryLabel.translatesAutoresizingMaskIntoConstraints = false
-        countryLabel.font = UIFont(name: "Arial", size: 40)
+        countryLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         countryLabel.textColor = .blue
         imageView.addSubview(countryLabel)
     }
@@ -144,10 +169,14 @@ class MainViewController: UIViewController,UITableViewDelegate {
             
             detailButton.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             detailButton.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -20),
-            detailButton.widthAnchor.constraint(equalToConstant: 100)
+            detailButton.widthAnchor.constraint(equalToConstant: 100),
+            
+            countrySwitch.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            countrySwitch.bottomAnchor.constraint(equalTo: detailButton.topAnchor, constant: -20),
+            countrySwitch.widthAnchor.constraint(equalToConstant: 70)
+            
         ])
         
     }
 
 }
-

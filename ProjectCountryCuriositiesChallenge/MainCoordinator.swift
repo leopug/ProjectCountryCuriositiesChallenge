@@ -11,7 +11,6 @@ import UIKit
 
 class MainCoordinator: Coordinator {
     
-    var childCoordinator = [Coordinator]()
     var navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
@@ -22,7 +21,7 @@ class MainCoordinator: Coordinator {
         
         let countryDetailView = CountryDetailViewController()
         countryDetailView.country = selectedCountry
-        countryDetailView.coordinator = self //maybe a coordinatable protocol to fix this???
+        countryDetailView.coordinator = self 
         
         navigationController.pushViewController(countryDetailView, animated: true)
         
@@ -30,7 +29,7 @@ class MainCoordinator: Coordinator {
     
     func goToCreditViewController(){
         let creditViewController = CreditViewController()
-        creditViewController.coordinator = self //maybe a coordinatable protocol to fix this???
+        creditViewController.coordinator = self
         navigationController.pushViewController(creditViewController, animated: true)
     }
     
