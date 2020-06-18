@@ -7,16 +7,24 @@
 //
 
 import Foundation
+import Combine
 
 class MainViewControllerViewModel {
-    @Published var isCountryChecked: Bool = false
     
+    @Published var isCountryChecked: Bool = false
+    var cancellable: AnyCancellable?
+
     @objc func invertIsCountryChecked() {
         isCountryChecked.toggle()
     }
-    //combine example assyncronous view update
     func timerInit() {
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(invertIsCountryChecked), userInfo: nil, repeats: true)
+        cancellable = Timer.publish(every: 1, on: .current , in: .default)
+            .autoconnect()
+            .sink {
+            _ in
+            self.invertIsCountryChecked()
+        }
+        
     }
     
 }
